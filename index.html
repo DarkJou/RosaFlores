@@ -23,6 +23,8 @@
             </a>
         </ul>
         <div class="contenedor" id="inicio">
+            <div class="slide slide1"></div>
+            <div class="slide slide2"></div>
             <p class="texto"></p>
         </div>
     </header>
@@ -73,8 +75,58 @@
         </div>
     </section>
     <footer id="contacto">
-        <p>@Rosa | 993 429 399</p>
+        <p>@RosaFlores | 993 429 399</p>
     </footer>
+    <script>
+        const slide1 = document.querySelector('.slide1');
+        const slide2 = document.querySelector('.slide2');
+      
+        const imagenesDesktop = [
+          "img/flyermodelo2.png",
+          "img/flyermodelo6.jpg",
+          "img/flyermodelo7.jpg"
+        ];
+      
+        const imagenesMobile = [
+          "img/flyermodelo3.png",
+          "img/flyermodelo5.png",
+          "img/flyermodelo5.jpg"
+        ];
+      
+        let indice = 0;
+        let esSlide1Activo = true;
+      
+        function cambiarFondo() {
+          const esMobile = window.innerWidth <= 768;
+          const imagenes = esMobile ? imagenesMobile : imagenesDesktop;
+          const imagen = imagenes[indice];
+      
+          const slideActual = esSlide1Activo ? slide1 : slide2;
+          const slideNuevo = esSlide1Activo ? slide2 : slide1;
+      
+          // Coloca la imagen nueva fuera del contenedor (a la derecha)
+          slideNuevo.style.backgroundImage = `linear-gradient(rgba(42, 141, 255, 0.151), rgba(221, 17, 85, 0)), url('${imagen}')`;
+          slideNuevo.style.transform = "translateX(100%)";
+      
+          // Fuerza un repaint (truco para que funcione la animación)
+          void slideNuevo.offsetWidth;
+      
+          // Desliza la nueva imagen a su lugar
+          slideNuevo.style.transition = "transform 1s ease-in-out";
+          slideActual.style.transition = "transform 1s ease-in-out";
+      
+          slideActual.style.transform = "translateX(-100%)";
+          slideNuevo.style.transform = "translateX(0%)";
+      
+          // Alterna slide activo
+          esSlide1Activo = !esSlide1Activo;
+          indice = (indice + 1) % imagenes.length;
+        }
+      
+        // Iniciar
+        cambiarFondo();
+        setInterval(cambiarFondo, 5000);
+      </script>  
 </body>
 
 </html>
